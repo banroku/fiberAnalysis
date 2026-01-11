@@ -1,0 +1,26 @@
+# src/fiberlen/config.py
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Config:
+    # --- scale ---
+    um_per_px: float = 1.0
+
+    # --- graph ---
+    connectivity: int = 8
+
+    # --- pairing ---
+    pairing_probe_len: int = 12
+    pairing_max_cost_accept: float = 0.35
+
+    # --- io ---
+    io_foreground: str = "auto"   # "auto" | "white" | "black"
+    io_pad: int = 0
+
+    # --- filtering / QC ---
+    border_margin_px: int = 5
+    exclude_border_touching: bool = True
+
+CFG = Config()

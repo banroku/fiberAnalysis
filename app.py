@@ -28,18 +28,21 @@ def _fig_to_png_bytes(fig) -> bytes:
     return buf.getvalue()
 
 
-def _make_overlay_png(mask: np.ndarray, fibers, g, top_n: int, linewidth: float = 1.8) -> bytes:
+def _make_overlay_png(mask: np.ndarray, fibers, g, top_n: int, linewidth: float = 1.8, color: str = "color") -> bytes:
     fig = plt.figure()
     plt.imshow(mask.astype(np.uint8), cmap="gray", interpolation="nearest")
     shown = 0
-    for f in fibers:
+    cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    #for f in fibers:
+    for i, f in enumerate(fibers):
         if shown >= top_n:
             break
+        color = cycle[i % len(cycle)]
         for sid in f.seg_ids:
             px = g.segments[sid].pixels  # list[(r,c)]
             rr = [p[0] for p in px]
             cc = [p[1] for p in px]
-            plt.plot(cc, rr, linewidth=linewidth)
+            plt.plot(cc, rr, linewidth=linewidth, color=color)
         shown += 1
     plt.axis("off")
     return _fig_to_png_bytes(fig)

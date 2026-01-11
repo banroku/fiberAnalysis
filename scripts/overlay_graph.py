@@ -10,7 +10,7 @@ from fiberlen.types import NodeKind
 from fiberlen.config import CFG
 
 def main():
-    raw_dir = Path("data/raw")
+    raw_dir = Path("data/raw/test_skeletons")
     out_dir = Path("data/output")
     out_dir.mkdir(parents=True, exist_ok=True)
 

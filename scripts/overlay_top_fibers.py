@@ -17,16 +17,16 @@ from fiberlen.metrics import (
 from fiberlen.types import Scale
 
 
-def _plot_polyline_rc(pixels, *, linewidth: float) -> None:
+def _plot_polyline_rc(pixels, *, linewidth: float, color: str) -> None:
     # pixels: list[(r,c)] -> plot wants x=c, y=r
     rr = [p[0] for p in pixels]
     cc = [p[1] for p in pixels]
-    plt.plot(cc, rr, linewidth=linewidth)  # matplotlib default color cycle
+    plt.plot(cc, rr, linewidth=linewidth, color=color)  # matplotlib default color cycle
 
 
 def main() -> None:
     root = Path(__file__).resolve().parents[1]
-    raw_dir = root / "data" / "raw"
+    raw_dir = root / "data" / "raw" / "test_skeletons"
     out_dir = root / "data" / "output"
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -81,9 +81,14 @@ def main() -> None:
     fig = plt.figure()
     plt.imshow(base, cmap="gray", interpolation="nearest")
 
-    for f in top:
+#     for f in top:
+#        for sid in f.seg_ids:
+#            _plot_polyline_rc(g.segments[sid].pixels, linewidth=float(CFG.overlay_linewidth))
+    cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    for i, f in enumerate(top):
+        color = cycle[i % len(cycle)]
         for sid in f.seg_ids:
-            _plot_polyline_rc(g.segments[sid].pixels, linewidth=float(CFG.overlay_linewidth))
+            _plot_polyline_rc(g.segments[sid].pixels, linewidth=float(CFG.overlay_linewidth), color=color)
 
     plt.title(
         f"Top {len(top)} fibers "

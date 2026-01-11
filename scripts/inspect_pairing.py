@@ -75,7 +75,7 @@ def main():
     # Print a few example junction decisions
     shown = 0
     for j_id, p in pairings.items():
-        if shown >= 8:
+        if shown >= 20:
             break
         if p.pairs:
             print(f"Junction {j_id}: pairs={p.pairs} leftovers={p.leftovers} score={p.score}")

@@ -38,6 +38,12 @@ def trace_fibers(
     """
     pair_map = build_pair_map(pairings)
 
+    print("=== DEBUG: pair_map preview ===")
+    for k, v in list(pair_map.items())[:10]:
+        print("pair_map", k, "->", v)
+    print("pair_map size:", len(pair_map))
+    print("================================")
+
     visited: Set[int] = set()
     fibers: List[FiberPath] = []
     next_fiber_id = 1
@@ -86,7 +92,14 @@ def trace_fibers(
 
             if other_node.kind == NodeKind.JUNCTION:
                 has_junction = True
+
+                key = (other, cur_seg_id)
+                print(f"[TRACE] junction={other} incoming_seg={cur_seg_id} key_in_map={key in pair_map}")
+
                 nxt = next_segment_at_junction(other, cur_seg_id)
+
+                print(f"[TRACE] next_seg={nxt}")
+
                 if nxt is None:
                     break
                 cur_node = other
